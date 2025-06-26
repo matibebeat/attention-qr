@@ -1,44 +1,253 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <title>Vous avez scanné ce QR code ?</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      color: #333;
-      padding: 2rem;
-      text-align: center;
-      max-width: 600px;
-      margin: auto;
-    }
-    h1 {
-      color: #d9534f;
-      font-size: 1.8rem;
-    }
-    p {
-      font-size: 1.1rem;
-      margin: 1rem 0;
-    }
-    .highlight {
-      font-weight: bold;
-      color: #5bc0de;
-    }
-    footer {
-      margin-top: 2rem;
-      font-size: 0.9rem;
-      color: #777;
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vous avez scanné ce QR code ?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+        }
+
+        .warning-icon {
+            font-size: 4rem;
+            color: #ff6b6b;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .alert-box {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            font-weight: 600;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 1.5rem 0;
+            color: #555;
+        }
+
+        .risk-list {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-left: 5px solid #feca57;
+        }
+
+        .risk-list h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .risk-items {
+            display: grid;
+            gap: 1rem;
+            text-align: left;
+        }
+
+        .risk-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+        }
+
+        .risk-item::before {
+            content: '⚠️';
+            font-size: 1.2rem;
+        }
+
+        .tips-section {
+            background: linear-gradient(135deg, #48dbfb, #0abde3);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .tips-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .tip {
+            text-align: left;
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .tip::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #00d2d3;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid #eee;
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .qr-icon {
+            font-size: 3rem;
+            margin: 1rem 0;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .alert-box {
+                font-size: 1.1rem;
+                padding: 1.2rem;
+            }
+
+            .warning-icon {
+                font-size: 3rem;
+            }
+        }
+
+        .security-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #00d2d3, #0abde3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 1rem 0;
+        }
+    </style>
 </head>
 <body>
-  <h1>Vous avez scanné ce QR code ?</h1>
-  <p><span class="highlight">On vous avait pourtant prévenu de faire attention !</span></p>
-  <p>Scanner un QR code inconnu peut être risqué : phishing, malware, vol d’informations.</p>
-  <p>Prenez toujours le temps de vérifier avant de scanner. Ici, ce n’est qu’une page de sensibilisation, mais dans d’autres cas, les conséquences pourraient être bien moins amusantes.</p>
-  <footer>
-    Inspiré par les recommandations de <a href="https://www.cybermalveillance.gouv.fr/" target="_blank">Cybermalveillance.gouv.fr</a> et <a href="https://www.francenum.gouv.fr/" target="_blank">France Num</a>.
-  </footer>
+<div class="container">
+    <div class="warning-icon">⚠️</div>
+
+    <h1>Vous avez scanné ce QR code ?</h1>
+
+    <div class="alert-box">
+        On vous avait pourtant prévenu de faire attention !
+    </div>
+
+    <div class="qr-icon">📱</div>
+
+    <p>Scanner un QR code inconnu peut être <strong>très risqué</strong>. Cette page de sensibilisation vous rappelle les dangers potentiels.</p>
+
+    <div class="risk-list">
+        <h3>🚨 Risques principaux :</h3>
+        <div class="risk-items">
+            <div class="risk-item">Phishing et vol d'identifiants</div>
+            <div class="risk-item">Installation de malware</div>
+            <div class="risk-item">Vol d'informations personnelles</div>
+            <div class="risk-item">Redirection vers des sites malveillants</div>
+        </div>
+    </div>
+
+    <div class="tips-section">
+        <h3>🛡️ Conseils de sécurité :</h3>
+        <div class="tip">Vérifiez toujours la source du QR code</div>
+        <div class="tip">Utilisez une app de scan sécurisée</div>
+        <div class="tip">Prévisualisez l'URL avant de visiter</div>
+        <div class="tip">Méfiez-vous des QR codes dans l'espace public</div>
+    </div>
+
+    <div class="security-badge">
+        🔒 Sensibilisation Cybersécurité
+    </div>
+
+    <p>Ici, ce n'est qu'une page éducative, mais dans d'autres cas, les conséquences pourraient être <strong>bien plus graves</strong>.</p>
+
+    <footer>
+        <p>Inspiré par les recommandations de :</p>
+        <p>
+            <a href="https://www.cybermalveillance.gouv.fr/" target="_blank" rel="noopener">🇫🇷 Cybermalveillance.gouv.fr</a>
+            •
+            <a href="https://www.francenum.gouv.fr/" target="_blank" rel="noopener">France Num</a>
+        </p>
+    </footer>
+</div>
 </body>
 </html>
